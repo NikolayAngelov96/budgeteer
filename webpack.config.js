@@ -3,8 +3,10 @@ const path = require("path");
 module.exports = {
   mode: "development",
   entry: {
-    app: "./app.js",
-    dashboard: "./dashboard.js",
+    dashboard: "./src/dashboard.js",
+    summary: "./src/summary.js",
+    budget: "./src/budget.js",
+    expenses: "./src/expenses.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
