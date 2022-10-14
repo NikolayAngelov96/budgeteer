@@ -12,11 +12,18 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].bundle.js",
   },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "/"),
+    },
+    compress: true,
+    port: 9000,
+  },
 };
 
-/** 
- * 
- * dev server config
+/*
+  
+ dev server config
  devServer: {
      static: {
          directory: path.join(__dirname, '/')
@@ -24,5 +31,4 @@ module.exports = {
         compress: true,
         port: 9000
     }
-    * 
 */
