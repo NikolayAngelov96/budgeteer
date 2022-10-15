@@ -22,6 +22,21 @@ export function getId() {
 export const tr = e.bind(null, "tr", {});
 export const td = e.bind(null, "td", {});
 
+export function getUserData() {
+  const records = JSON.parse(localStorage.getItem("records"));
+  const result = new Map();
+
+  for (const item of records) {
+    result.set(item.id, item);
+  }
+
+  return result;
+}
+
+export function setUserData(records) {
+  localStorage.setItem("records", JSON.stringify([...records.values()]));
+}
+
 export const months = [
   "Jan",
   "Feb",
@@ -47,24 +62,28 @@ export const categories = {
 
 export const mockdata = {
   d5689c3: {
+    id: "d5689c3",
     date: "2022-06-04",
     name: "Electricity",
     category: "1",
     amount: 100,
   },
   "2d7aa7a": {
+    id: "2d7aa7a",
     date: "2022-06-04",
     name: "Water",
     category: "1",
     amount: 60,
   },
   "6e1004d": {
+    id: "6e1004d",
     date: "2022-06-03",
     name: "Car fuel",
     category: "4",
     amount: 35,
   },
   "8fdfcc1": {
+    id: "8fdfcc1",
     date: "2022-06-01",
     name: "Weekly Shopping",
     category: "2",

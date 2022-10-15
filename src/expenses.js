@@ -1,6 +1,19 @@
-import { e, tr, td, months, categories, mockdata, getId } from "./util";
+import {
+  e,
+  tr,
+  td,
+  months,
+  categories,
+  mockdata,
+  getId,
+  setUserData,
+  getUserData,
+} from "./util";
 
-const records = new Map(Object.entries(mockdata));
+const records = getUserData();
+
+let isEditModeOn = false;
+let currentId = null;
 
 const tbody = document.querySelector("tbody");
 const form = document.getElementById("new-expense");
@@ -42,7 +55,22 @@ function onSubmit(event) {
   }
   console.log(data);
 
+  if (isEditModeOn) {
+    // handle edit
+  }
+
   const row = createRow(data);
+
+  const id = currentId ? currentId : getId();
+
+  const record = {
+    id,
+    ...data,
+  };
+
+  records.set(id, record);
+  setUserData(records);
+
   tbody.appendChild(row);
 }
 
