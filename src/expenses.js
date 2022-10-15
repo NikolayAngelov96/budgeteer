@@ -14,7 +14,19 @@ function onSubmit(event) {
 
   for (const key in data) {
     if (data[key] == "") {
-      // add error message
+      // works one error at a time
+      let errorMessage = `${key} is required field`;
+      const errorElement = document.getElementById("error-message");
+      const inputElement = document.querySelector(`[name=${key}]`);
+
+      errorElement.textContent = errorMessage;
+      inputElement.style.border = "2px solid red";
+
+      setTimeout(() => {
+        errorElement.textContent = "";
+        inputElement.style.border = "";
+      }, 5000);
+
       return;
     }
   }
