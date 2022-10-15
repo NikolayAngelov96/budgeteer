@@ -16,6 +16,9 @@ export function e(type, attributes, ...content) {
   return element;
 }
 
+export function getId() {
+  return Math.random().toString(16).substring(2, 9);
+}
 export const tr = e.bind(null, "tr", {});
 export const td = e.bind(null, "td", {});
 
@@ -40,4 +43,31 @@ export const categories = {
   2: "Groceries",
   3: "Entertainment",
   4: "Transport",
+};
+
+export const mockdata = {
+  d5689c3: {
+    date: "2022-06-04",
+    name: "Electricity",
+    category: "1",
+    amount: 100,
+  },
+  "2d7aa7a": {
+    date: "2022-06-04",
+    name: "Water",
+    category: "1",
+    amount: 60,
+  },
+  "6e1004d": {
+    date: "2022-06-03",
+    name: "Car fuel",
+    category: "4",
+    amount: 35,
+  },
+  "8fdfcc1": {
+    date: "2022-06-01",
+    name: "Weekly Shopping",
+    category: "2",
+    amount: 75,
+  },
 };
