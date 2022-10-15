@@ -4,7 +4,6 @@ import {
   td,
   months,
   categories,
-  mockdata,
   getId,
   setUserData,
   getUserData,
@@ -17,13 +16,42 @@ let currentId = null;
 
 const tbody = document.querySelector("tbody");
 const form = document.getElementById("new-expense");
+const dateInput = form.querySelector('[name="date"]');
 
 form.addEventListener("submit", onSubmit);
+
+tbody.addEventListener("click", onButtonsClick);
+
+function onButtonsClick(event) {
+  if (event.target.tagName == "BUTTON") {
+    const row = event.target.parentElement.parentElement;
+
+    if (event.target.classList.contains("edit-btn")) {
+      const nameInput = form.querySelector('[name="name"]');
+      const categoryElement = form.querySelector("select");
+      const amountInput = form.querySelector('[name="amount"]');
+
+      const record = records.get(row.id);
+
+      isEditModeOn = true;
+      currentId = record.id;
+
+      dateInput.value = record.date;
+      nameInput.value = record.name;
+      categoryElement.value = record.category;
+      amountInput.value = record.amount;
+    } else if (event.target.classList.contains("delete-btn")) {
+      row.remove();
+      records.delete(row.id);
+      setUserData(records);
+    }
+  }
+}
 
 initialDataLoading();
 
 function initialDataLoading() {
-  const data = [...records.values()].map((x) => createRow(x));
+  const data = [...records.values()].map((x) => createRow(x, x.id));
 
   tbody.replaceChildren(...data);
 }
@@ -53,15 +81,14 @@ function onSubmit(event) {
       return;
     }
   }
-  console.log(data);
-
-  if (isEditModeOn) {
-    // handle edit
-  }
-
-  const row = createRow(data);
 
   const id = currentId ? currentId : getId();
+  if (isEditModeOn) {
+    // handle edit
+    document.getElementById(id).remove();
+    records.delete(id);
+  }
+  const row = createRow(data, id);
 
   const record = {
     id,
@@ -71,10 +98,16 @@ function onSubmit(event) {
   records.set(id, record);
   setUserData(records);
 
+  form.reset();
+  dateInput.value = data.date;
+
   tbody.appendChild(row);
+
+  isEditModeOn = false;
+  currentId = null;
 }
 
-function createRow({ date, name, category, amount }) {
+function createRow({ date, name, category, amount }, id) {
   const dateValue = new Date(date);
 
   const row = tr(
@@ -82,8 +115,13 @@ function createRow({ date, name, category, amount }) {
     td(name),
     td(categories[category]),
     td(e("span", { className: "currency" }, amount)),
-    td(e("button", {}, "Edit"), e("button", {}, "Delete"))
+    td(
+      e("button", { className: "edit-btn" }, "Edit"),
+      e("button", { className: "delete-btn" }, "Delete")
+    )
   );
+
+  row.id = id;
 
   return row;
 }
