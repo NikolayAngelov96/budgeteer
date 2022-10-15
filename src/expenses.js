@@ -7,6 +7,14 @@ const form = document.getElementById("new-expense");
 
 form.addEventListener("submit", onSubmit);
 
+initialDataLoading();
+
+function initialDataLoading() {
+  const data = [...records.values()].map((x) => createRow(x));
+
+  tbody.replaceChildren(...data);
+}
+
 function onSubmit(event) {
   event.preventDefault();
 
