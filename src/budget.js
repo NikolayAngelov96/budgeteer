@@ -1,5 +1,6 @@
 import { e, tr, td, months, getUserData, setUserData } from "./util";
 
+// should sort them
 const budget = getUserData("budget");
 
 const tbody = document.querySelector("tbody");
@@ -52,7 +53,6 @@ function onSubmit(event) {
 
   const data = Object.fromEntries(formData);
 
-  // handle if data == "";
   for (const key in data) {
     if (data[key] == "") {
       // works one error at a time
