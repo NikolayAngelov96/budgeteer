@@ -7,6 +7,36 @@ const form = document.getElementById("new-budget");
 
 form.addEventListener("submit", onSubmit);
 
+tbody.addEventListener("click", onButtonsClick);
+
+let isEditModeOn = false;
+let currentId = null;
+
+function onButtonsClick(event) {
+  if (event.target.tagName == "BUTTON") {
+    const row = event.target.parentElement.parentElement;
+
+    if (event.target.classList.contains("edit-btn")) {
+      const monthInput = form.querySelector('[name="month"]');
+      const incomeInput = form.querySelector('[name="income"]');
+      const budgetInput = form.querySelector('[name="budget"]');
+
+      const record = budget.get(row.id);
+
+      isEditModeOn = true;
+      currentId = record.id;
+
+      monthInput.value = record.month;
+      incomeInput.value = record.income;
+      budgetInput.value = record.budget;
+    } else if (event.target.classList.contains("delete-btn")) {
+      row.remove();
+      budget.delete(row.id);
+      setUserData("budget", budget);
+    }
+  }
+}
+
 initialDataLoading();
 
 function initialDataLoading() {
@@ -14,8 +44,6 @@ function initialDataLoading() {
 
   tbody.replaceChildren(...data);
 }
-
-let isEditModeOn = false;
 
 function onSubmit(event) {
   event.preventDefault();
@@ -25,7 +53,13 @@ function onSubmit(event) {
   const data = Object.fromEntries(formData);
 
   // handle if data == "";
-  let id = data.month;
+
+  let id = currentId ? currentId : data.month;
+
+  if (isEditModeOn) {
+    document.getElementById(id).remove();
+    budget.delete(id);
+  }
 
   const row = createRow(data, id);
 
@@ -38,6 +72,9 @@ function onSubmit(event) {
 
   form.reset();
   tbody.appendChild(row);
+
+  isEditModeOn = false;
+  currentId = null;
 }
 
 function createRow({ month, income, budget }, id) {
@@ -51,7 +88,10 @@ function createRow({ month, income, budget }, id) {
     td(`${months[monthAsStr]}.${yearAsStr}`),
     td(e("span", { className: "currency" }, income)),
     td(e("span", { className: "currency" }, budget)),
-    td(e("button", {}, "Edit"), e("button", {}, "Delete"))
+    td(
+      e("button", { className: "edit-btn" }, "Edit"),
+      e("button", { className: "delete-btn" }, "Delete")
+    )
   );
 
   row.id = id;
