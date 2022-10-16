@@ -1,11 +1,19 @@
-import { e, tr, td, months } from "./util";
+import { e, tr, td, months, getUserData, setUserData } from "./util";
 
-const budget = new Map();
+const budget = getUserData("budget");
 
 const tbody = document.querySelector("tbody");
 const form = document.getElementById("new-budget");
 
 form.addEventListener("submit", onSubmit);
+
+initialDataLoading();
+
+function initialDataLoading() {
+  const data = [...budget.values()].map((x) => createRow(x, x.id));
+
+  tbody.replaceChildren(...data);
+}
 
 let isEditModeOn = false;
 
@@ -17,23 +25,22 @@ function onSubmit(event) {
   const data = Object.fromEntries(formData);
 
   // handle if data == "";
-  const row = createRow(data);
-
   let id = data.month;
+
+  const row = createRow(data, id);
 
   const record = {
     id,
     ...data,
   };
   budget.set(id, record);
-
-  console.log(budget);
+  setUserData("budget", budget);
 
   form.reset();
   tbody.appendChild(row);
 }
 
-function createRow({ month, income, budget }) {
+function createRow({ month, income, budget }, id) {
   let [monthAsStr, yearAsStr] = month.split("-");
 
   monthAsStr = monthAsStr.startsWith("0")
@@ -46,6 +53,8 @@ function createRow({ month, income, budget }) {
     td(e("span", { className: "currency" }, budget)),
     td(e("button", {}, "Edit"), e("button", {}, "Delete"))
   );
+
+  row.id = id;
 
   return row;
 }
