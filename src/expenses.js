@@ -1,16 +1,7 @@
-import {
-  e,
-  tr,
-  td,
-  months,
-  categories,
-  getId,
-  setUserData,
-  getUserData,
-} from "./util";
+import { e, tr, td, months, categories, getId, setData, getData } from "./util";
 
 // should sort them
-const records = getUserData("records");
+const records = getData("records");
 
 let isEditModeOn = false;
 let currentId = null;
@@ -104,7 +95,7 @@ function onSubmit(event) {
   };
 
   records.set(id, record);
-  setUserData("records", records);
+  setData("records", records);
 
   form.reset();
   dateInput.value = data.date;

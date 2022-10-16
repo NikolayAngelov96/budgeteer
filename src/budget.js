@@ -1,7 +1,7 @@
-import { e, tr, td, months, getUserData, setUserData } from "./util";
+import { e, tr, td, months, getData, setData } from "./util";
 
 // should sort them
-const budget = getUserData("budget");
+const budget = getData("budget");
 
 const tbody = document.querySelector("tbody");
 const form = document.getElementById("new-budget");
@@ -33,7 +33,7 @@ function onButtonsClick(event) {
     } else if (event.target.classList.contains("delete-btn")) {
       row.remove();
       budget.delete(row.id);
-      setUserData("budget", budget);
+      setData("budget", budget);
     }
   }
 }
@@ -86,7 +86,7 @@ function onSubmit(event) {
     ...data,
   };
   budget.set(id, record);
-  setUserData("budget", budget);
+  setData("budget", budget);
 
   form.reset();
   tbody.appendChild(row);

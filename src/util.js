@@ -22,7 +22,7 @@ export function getId() {
 export const tr = e.bind(null, "tr", {});
 export const td = e.bind(null, "td", {});
 
-export function getUserData(key) {
+export function getData(key) {
   const records = JSON.parse(localStorage.getItem(key));
   const result = new Map();
 
@@ -33,7 +33,7 @@ export function getUserData(key) {
   return result;
 }
 
-export function setUserData(key, records) {
+export function setData(key, records) {
   localStorage.setItem(key, JSON.stringify([...records.values()]));
 }
 
