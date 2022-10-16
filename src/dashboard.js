@@ -1,6 +1,9 @@
-import { getData } from "./util";
+import { getData, e, categories } from "./util";
 
 const breakdown = getBreakdownData();
+const breakdownContainer = document.querySelector(".container");
+
+displayBreakdownData();
 
 function getBreakdownData() {
   const records = getData("records");
@@ -17,4 +20,20 @@ function getBreakdownData() {
   }
 
   return result;
+}
+
+function displayBreakdownData() {
+  for (const key in breakdown) {
+    const bar = e("span", { className: "bar" });
+    bar.style.width = `${breakdown[key]}px`;
+    const element = e(
+      "div",
+      { className: "cat-row" },
+      e("span", { className: "row label" }, categories[key]),
+      e("span", { className: "row value" }, breakdown[key]),
+      e("div", { className: "bar-area" }, bar)
+    );
+
+    breakdownContainer.appendChild(element);
+  }
 }
