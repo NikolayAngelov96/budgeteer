@@ -10,7 +10,7 @@ import {
 } from "./util";
 
 // should sort them
-const records = getUserData();
+const records = getUserData("records");
 
 let isEditModeOn = false;
 let currentId = null;
@@ -52,7 +52,7 @@ function onButtonsClick(event) {
     } else if (event.target.classList.contains("delete-btn")) {
       row.remove();
       records.delete(row.id);
-      setUserData(records);
+      setUserData("records", records);
     }
   }
 }
@@ -104,7 +104,7 @@ function onSubmit(event) {
   };
 
   records.set(id, record);
-  setUserData(records);
+  setUserData("records", records);
 
   form.reset();
   dateInput.value = data.date;

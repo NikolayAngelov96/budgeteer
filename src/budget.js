@@ -7,6 +7,8 @@ const form = document.getElementById("new-budget");
 
 form.addEventListener("submit", onSubmit);
 
+let isEditModeOn = false;
+
 function onSubmit(event) {
   event.preventDefault();
 
@@ -18,7 +20,12 @@ function onSubmit(event) {
   const row = createRow(data);
 
   let id = data.month;
-  budget.set(id, data);
+
+  const record = {
+    id,
+    ...data,
+  };
+  budget.set(id, record);
 
   console.log(budget);
 

@@ -22,8 +22,8 @@ export function getId() {
 export const tr = e.bind(null, "tr", {});
 export const td = e.bind(null, "td", {});
 
-export function getUserData() {
-  const records = JSON.parse(localStorage.getItem("records"));
+export function getUserData(key) {
+  const records = JSON.parse(localStorage.getItem(key));
   const result = new Map();
 
   for (const item of records) {
@@ -33,8 +33,8 @@ export function getUserData() {
   return result;
 }
 
-export function setUserData(records) {
-  localStorage.setItem("records", JSON.stringify([...records.values()]));
+export function setUserData(key, records) {
+  localStorage.setItem(key, JSON.stringify([...records.values()]));
 }
 
 export const months = [
