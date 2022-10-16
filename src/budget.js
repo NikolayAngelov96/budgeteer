@@ -53,6 +53,24 @@ function onSubmit(event) {
   const data = Object.fromEntries(formData);
 
   // handle if data == "";
+  for (const key in data) {
+    if (data[key] == "") {
+      // works one error at a time
+      let errorMessage = `${key} is required field`;
+      const errorElement = document.getElementById("error-message");
+      const inputElement = document.querySelector(`[name=${key}]`);
+
+      errorElement.textContent = errorMessage;
+      inputElement.style.border = "2px solid red";
+
+      setTimeout(() => {
+        errorElement.textContent = "";
+        inputElement.style.border = "";
+      }, 5000);
+
+      return;
+    }
+  }
 
   let id = currentId ? currentId : data.month;
 
