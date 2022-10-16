@@ -9,6 +9,7 @@ import {
   getUserData,
 } from "./util";
 
+// should sort them
 const records = getUserData();
 
 let isEditModeOn = false;
@@ -21,6 +22,14 @@ const dateInput = form.querySelector('[name="date"]');
 form.addEventListener("submit", onSubmit);
 
 tbody.addEventListener("click", onButtonsClick);
+
+document
+  .querySelector('.centered [type="button"]')
+  .addEventListener("click", () => {
+    form.reset();
+    isEditModeOn = false;
+    currentId = null;
+  });
 
 function onButtonsClick(event) {
   if (event.target.tagName == "BUTTON") {
@@ -84,7 +93,6 @@ function onSubmit(event) {
 
   const id = currentId ? currentId : getId();
   if (isEditModeOn) {
-    // handle edit
     document.getElementById(id).remove();
     records.delete(id);
   }
