@@ -12,7 +12,6 @@ displayData();
 function getCategoryData() {
   const data = records.values();
   const result = {};
-  //   const result = [];
 
   for (const item of data) {
     const date = new Date(item.date);
@@ -20,21 +19,11 @@ function getCategoryData() {
     let currentMonth = date.getMonth();
 
     if (currentMonth < 3) {
-      //   result.push({
-      //     month: currentMonth,
-      //     category: item.category,
-      //     amount: item.amount,}
-
       if (!result.hasOwnProperty(currentMonth)) {
-        // result[currentMonth] = {};
         result[currentMonth] = [];
       }
 
       result[currentMonth].push(item);
-      //   if (!result[currentMonth].hasOwnProperty(item.category)) {
-      //     result[currentMonth][item.category] = 0;
-      //   }
-      //   result[currentMonth][item.category] += Number(item.amount);
     }
   }
 
