@@ -43,7 +43,7 @@ function onButtonsClick(event) {
     } else if (event.target.classList.contains("delete-btn")) {
       row.remove();
       records.delete(row.id);
-      setUserData("records", records);
+      setData("records", records);
     }
   }
 }
