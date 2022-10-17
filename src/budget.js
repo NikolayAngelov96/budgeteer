@@ -13,6 +13,14 @@ tbody.addEventListener("click", onButtonsClick);
 let isEditModeOn = false;
 let currentId = null;
 
+document
+  .querySelector('.centered [type="button"]')
+  .addEventListener("click", () => {
+    form.reset();
+    isEditModeOn = false;
+    currentId = null;
+  });
+
 function onButtonsClick(event) {
   if (event.target.tagName == "BUTTON") {
     const row = event.target.parentElement.parentElement;
