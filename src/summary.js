@@ -6,6 +6,7 @@ const tbody = document.querySelector("tbody");
 const records = getData("records");
 
 let currentPage = 1;
+let pageSize = 3;
 
 displayData();
 
@@ -56,59 +57,49 @@ function getHeaderElements(data) {
   return row;
 }
 
-function getBreakdownElements(data) {
-  const result = {
-    1: {},
-    3: {},
-    2: {},
-    4: {},
-    0: {},
-  };
+function getBreakdownElements() {
+  const data = getData("records");
+  const result = {};
+  // 1-2-3 : page 1
+  // 4-5-6 : page 2
+  // 7-8-9 : page 3
 
-  let arr = [];
+  // page * pageSize - pageSize
+  // pageSize * (page - 1) - pagination formula;
 
-  for (const key in data) {
-    const d = data[key].map((x) => {
-      const date = new Date(x.date);
+  let offset = pageSize * (currentPage - 1);
 
-      return {
-        month: date.getMonth(),
-        amount: x.amount,
-        category: x.category,
-      };
-    });
+  for (const category in categories) {
+    result[category] = {};
 
-    arr = arr.concat(d);
+    for (let i = 0; i < 3; i++) {
+      // const monthAsKey = result[i][category] another structure for month: {category: {} }
+      result[category][i + offset] = 0;
+    }
   }
 
-  for (const item of arr) {
-    if (!result.hasOwnProperty(item.category)) {
-      result[item.category] = {};
-    }
+  let values = [...data.values()].map((x) => ({
+    month: new Date(x.date).getMonth(),
+    amount: x.amount,
+    category: x.category,
+  }));
 
-    if (!result[item.category].hasOwnProperty(item.month)) {
-      result[item.category][item.month] = 0;
+  for (const item of values) {
+    if (item.month >= offset && item.month < offset + pageSize) {
+      // const monthAsKey = result[i][category] another structure
+      result[item.category][item.month] += Number(item.amount);
     }
-
-    result[item.category][item.month] += Number(item.amount);
   }
 
   for (const category in result) {
     let row = tr(e("th", {}, categories[category]));
 
-    if (Object.keys(result[category]) == 0) {
-      for (let i = 0; i < 4; i++) {
-        const el = td(e("span", { className: "currency" }, 0));
-        row.appendChild(el);
-      }
-    } else {
-      for (const key in result[category]) {
-        const el = td(
-          e("span", { className: "currency" }, result[category][key] || 0)
-        );
+    for (const month in result[category]) {
+      const el = td(
+        e("span", { className: "currency" }, result[category][month])
+      );
 
-        row.appendChild(el);
-      }
+      row.appendChild(el);
     }
 
     tbody.appendChild(row);
