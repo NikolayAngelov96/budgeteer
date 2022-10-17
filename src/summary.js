@@ -2,6 +2,7 @@ import { e, getData, months, tr, categories, td } from "./util";
 
 const thead = document.querySelector("thead");
 const tbody = document.querySelector("tbody");
+const tfoot = document.querySelector("tfoot");
 
 const records = getData("records");
 
@@ -120,11 +121,10 @@ function displayTableDataElements() {
   }
 
   displayTotalSum(monthsTotalSum);
+  displayBudgetOverruns(monthsTotalSum);
 }
 
 function displayTotalSum(monthsTotalSum) {
-  const totalSpent = document.querySelector("tfoot");
-
   const row = e("tr", { className: "total" }, e("th", {}, "Total Spent"));
 
   for (const month in monthsTotalSum) {
@@ -139,5 +139,36 @@ function displayTotalSum(monthsTotalSum) {
 
   row.appendChild(totalElement);
 
-  totalSpent.appendChild(row);
+  tfoot.appendChild(row);
+}
+
+function displayBudgetOverruns(monthsTotalSum) {
+  const budget = getData("budget");
+
+  let monthsOverruns = {};
+
+  for (const item of [...budget.values()]) {
+    let month = Number(item.month.slice(0, 2) - 1);
+
+    monthsOverruns[month] = monthsTotalSum[month] - item.budget;
+
+    if (monthsOverruns[month] < 0) {
+      monthsOverruns[month] = 0;
+    }
+  }
+
+  const row = e("tr", { className: "overrun" }, e("th", {}, "Budget Overruns"));
+
+  for (const month in monthsOverruns) {
+    const el = td(e("span", { className: "currency" }, monthsOverruns[month]));
+    row.appendChild(el);
+  }
+
+  const total = Object.values(monthsOverruns).reduce((acc, c) => acc + c, 0);
+
+  const totalElement = e("th", {}, e("span", { className: "currency" }, total));
+
+  row.appendChild(totalElement);
+
+  tfoot.appendChild(row);
 }
