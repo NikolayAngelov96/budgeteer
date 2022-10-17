@@ -1,4 +1,4 @@
-import { getData, e, categories } from "./util";
+import { getData, e, categories, getBarSize } from "./util";
 
 const breakdown = getBreakdownData();
 const breakdownContainer = document.querySelector(".container");
@@ -71,9 +71,12 @@ function getBreakdownData() {
 }
 
 function displayBreakdownData() {
+  const max = Math.max(...Object.values(breakdown));
+
   for (const key in breakdown) {
     const bar = e("span", { className: "bar" });
-    bar.style.width = `${breakdown[key]}px`;
+    const barSize = getBarSize(breakdown[key], max, 400);
+    bar.style.width = `${barSize}px`;
     const element = e(
       "div",
       { className: "cat-row" },
