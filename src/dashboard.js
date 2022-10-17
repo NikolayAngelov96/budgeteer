@@ -41,6 +41,13 @@ function getOverviewData() {
 function displayOverviewData() {
   const overviewData = getOverviewData();
 
+  const bars = [...document.querySelectorAll(".ov")];
+  const allValuesSum = Object.values(overviewData).reduce(
+    (acc, c) => acc + c,
+    0
+  );
+
+  let index = 0;
   for (const key in overviewData) {
     const element = e(
       "div",
@@ -49,6 +56,8 @@ function displayOverviewData() {
       e("span", { className: "row value" }, overviewData[key])
     );
 
+    const barSize = getBarSize(overviewData[key], allValuesSum, 300);
+    bars[index++].style.height = `${barSize}px`;
     overviewNumbers.appendChild(element);
   }
 }
