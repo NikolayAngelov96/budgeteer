@@ -34,11 +34,9 @@ function getCategoryData() {
 function displayData() {
   const data = getCategoryData();
 
-  const headerRow = getHeaderElements(data);
+  getHeaderElements(data);
 
-  const breakdownEl = getBreakdownElements(data);
-
-  thead.replaceChildren(headerRow);
+  getBreakdownElements(data);
 }
 
 function getHeaderElements(data) {
@@ -54,7 +52,7 @@ function getHeaderElements(data) {
 
   row.appendChild(total);
 
-  return row;
+  thead.replaceChildren(row);
 }
 
 function getBreakdownElements() {
@@ -94,13 +92,24 @@ function getBreakdownElements() {
   for (const category in result) {
     let row = tr(e("th", {}, categories[category]));
 
+    let categoryTotalSum = 0;
+
     for (const month in result[category]) {
       const el = td(
         e("span", { className: "currency" }, result[category][month])
       );
 
+      categoryTotalSum += result[category][month];
       row.appendChild(el);
     }
+
+    const totalElement = e(
+      "th",
+      {},
+      e("span", { className: "currency" }, categoryTotalSum)
+    );
+
+    row.appendChild(totalElement);
 
     tbody.appendChild(row);
   }
