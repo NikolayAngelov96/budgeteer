@@ -7,6 +7,10 @@ const overviewNumbers = document.querySelector(".left-col");
 
 // display overview bars properly
 
+// find max; every value / max * 400;  horizontal bars
+
+// for vertical bars: every value / sum of all values * 500?px
+
 displayBreakdownData();
 displayOverviewData();
 
