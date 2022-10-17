@@ -90,3 +90,7 @@ export const mockdata = {
     amount: 75,
   },
 };
+
+export function getBarSize(number, max, multiplier) {
+  return (number / max) * multiplier;
+}
