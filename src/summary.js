@@ -36,7 +36,7 @@ function displayData() {
 
   getHeaderElements(data);
 
-  getBreakdownElements(data);
+  displayTableDataElements();
 }
 
 function getHeaderElements(data) {
@@ -55,7 +55,7 @@ function getHeaderElements(data) {
   thead.replaceChildren(row);
 }
 
-function getBreakdownElements() {
+function displayTableDataElements() {
   const data = getData("records");
   const result = {};
   // 1-2-3 : page 1
@@ -89,6 +89,7 @@ function getBreakdownElements() {
     }
   }
 
+  let monthsTotalSum = {};
   for (const category in result) {
     let row = tr(e("th", {}, categories[category]));
 
@@ -100,9 +101,13 @@ function getBreakdownElements() {
       );
 
       categoryTotalSum += result[category][month];
+
+      if (!monthsTotalSum.hasOwnProperty(month)) {
+        monthsTotalSum[month] = 0;
+      }
+      monthsTotalSum[month] += result[category][month];
       row.appendChild(el);
     }
-
     const totalElement = e(
       "th",
       {},
@@ -113,4 +118,26 @@ function getBreakdownElements() {
 
     tbody.appendChild(row);
   }
+
+  displayTotalSum(monthsTotalSum);
+}
+
+function displayTotalSum(monthsTotalSum) {
+  const totalSpent = document.querySelector("tfoot");
+
+  const row = e("tr", { className: "total" }, e("th", {}, "Total Spent"));
+
+  for (const month in monthsTotalSum) {
+    const el = td(e("span", { className: "currency" }, monthsTotalSum[month]));
+
+    row.appendChild(el);
+  }
+
+  const total = Object.values(monthsTotalSum).reduce((acc, c) => acc + c, 0);
+
+  const totalElement = e("th", {}, e("span", { className: "currency" }, total));
+
+  row.appendChild(totalElement);
+
+  totalSpent.appendChild(row);
 }
