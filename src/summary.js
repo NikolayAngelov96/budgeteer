@@ -122,6 +122,7 @@ function displayTableDataElements() {
 
   displayTotalSum(monthsTotalSum);
   displayBudgetOverruns(monthsTotalSum);
+  displaySavings();
 }
 
 function displayTotalSum(monthsTotalSum) {
@@ -165,6 +166,33 @@ function displayBudgetOverruns(monthsTotalSum) {
   }
 
   const total = Object.values(monthsOverruns).reduce((acc, c) => acc + c, 0);
+
+  const totalElement = e("th", {}, e("span", { className: "currency" }, total));
+
+  row.appendChild(totalElement);
+
+  tfoot.appendChild(row);
+}
+
+function displaySavings() {
+  const budget = getData("budget");
+
+  const savingsPerMonth = {};
+
+  for (const item of [...budget.values()]) {
+    let month = Number(item.month.slice(0, 2) - 1);
+
+    savingsPerMonth[month] = item.income - item.budget;
+  }
+
+  const row = e("tr", { className: "savings" }, e("th", {}, "Savings"));
+
+  for (const month in savingsPerMonth) {
+    const el = td(e("span", { className: "currency" }, savingsPerMonth[month]));
+    row.appendChild(el);
+  }
+
+  const total = Object.values(savingsPerMonth).reduce((acc, c) => acc + c, 0);
 
   const totalElement = e("th", {}, e("span", { className: "currency" }, total));
 
