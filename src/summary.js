@@ -9,22 +9,38 @@ const records = getData("records");
 let currentPage = 1;
 let pageSize = 3;
 
-displayData();
+displayData(currentPage);
 
-function getCategoryData() {
-  const data = records.values();
+document.getElementById("next-btn").addEventListener("click", () => {
+  thead.replaceChildren();
+  tbody.replaceChildren();
+  tfoot.replaceChildren();
+  displayData(++currentPage);
+});
+
+document.getElementById("prev-btn").addEventListener("click", () => {
+  thead.replaceChildren();
+  tbody.replaceChildren();
+  tfoot.replaceChildren();
+  displayData(--currentPage);
+});
+
+function getCategoryData(page) {
+  const data = [...records.values()];
   const result = {};
+
+  let offset = pageSize * (page - 1);
+
+  for (let i = 0; i < 3; i++) {
+    result[i + offset] = [];
+  }
 
   for (const item of data) {
     const date = new Date(item.date);
 
     let currentMonth = date.getMonth();
 
-    if (currentMonth < 3) {
-      if (!result.hasOwnProperty(currentMonth)) {
-        result[currentMonth] = [];
-      }
-
+    if (result.hasOwnProperty(currentMonth)) {
       result[currentMonth].push(item);
     }
   }
@@ -32,8 +48,8 @@ function getCategoryData() {
   return result;
 }
 
-function displayData() {
-  const data = getCategoryData();
+function displayData(page) {
+  const data = getCategoryData(page);
 
   getHeaderElements(data);
 
@@ -72,7 +88,6 @@ function displayTableDataElements() {
     result[category] = {};
 
     for (let i = 0; i < 3; i++) {
-      // const monthAsKey = result[i][category] another structure for month: {category: {} }
       result[category][i + offset] = 0;
     }
   }
@@ -85,7 +100,6 @@ function displayTableDataElements() {
 
   for (const item of values) {
     if (item.month >= offset && item.month < offset + pageSize) {
-      // const monthAsKey = result[i][category] another structure
       result[item.category][item.month] += Number(item.amount);
     }
   }
@@ -148,13 +162,20 @@ function displayBudgetOverruns(monthsTotalSum) {
 
   let monthsOverruns = {};
 
+  let offset = pageSize * (currentPage - 1);
+
+  for (let i = 0; i < 3; i++) {
+    monthsOverruns[i + offset] = 0;
+  }
+
   for (const item of [...budget.values()]) {
     let month = Number(item.month.slice(0, 2) - 1);
 
-    monthsOverruns[month] = monthsTotalSum[month] - item.budget;
-
-    if (monthsOverruns[month] < 0) {
-      monthsOverruns[month] = 0;
+    if (monthsOverruns.hasOwnProperty(month)) {
+      monthsOverruns[month] = monthsTotalSum[month] - item.budget;
+      if (monthsOverruns[month] < 0) {
+        monthsOverruns[month] = 0;
+      }
     }
   }
 
@@ -179,10 +200,18 @@ function displaySavings() {
 
   const savingsPerMonth = {};
 
+  let offset = pageSize * (currentPage - 1);
+
+  for (let i = 0; i < 3; i++) {
+    savingsPerMonth[i + offset] = 0;
+  }
+
   for (const item of [...budget.values()]) {
     let month = Number(item.month.slice(0, 2) - 1);
 
-    savingsPerMonth[month] = item.income - item.budget;
+    if (savingsPerMonth.hasOwnProperty(month)) {
+      savingsPerMonth[month] = item.income - item.budget;
+    }
   }
 
   const row = e("tr", { className: "savings" }, e("th", {}, "Savings"));
