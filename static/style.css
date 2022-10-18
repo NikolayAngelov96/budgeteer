@@ -266,10 +266,17 @@ select {
 
 .error-message {
   color: red;
+  position: absolute;
+  top: 0;
+  right: -270px;
 }
 
 #next-btn:disabled,
 #prev-btn:disabled {
   background-color: #969696;
   cursor: not-allowed;
+}
+
+.row-label {
+  position: relative;
 }

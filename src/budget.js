@@ -65,8 +65,15 @@ function onSubmit(event) {
     if (data[key] == "") {
       // works one error at a time
       let errorMessage = `${key} is required field`;
-      const errorElement = document.getElementById("error-message");
+      const errorElement = e(
+        "span",
+        { className: "error-message" },
+        errorMessage
+      );
+
       const inputElement = document.querySelector(`[name=${key}]`);
+
+      inputElement.parentElement.appendChild(errorElement);
 
       errorElement.textContent = errorMessage;
       inputElement.style.border = "2px solid red";
