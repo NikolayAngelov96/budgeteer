@@ -4,26 +4,47 @@ const thead = document.querySelector("thead");
 const tbody = document.querySelector("tbody");
 const tfoot = document.querySelector("tfoot");
 
+const nextBtn = document.getElementById("next-btn");
+const prevBtn = document.getElementById("prev-btn");
+
 const records = getData("records");
 
 let currentPage = 1;
 let pageSize = 3;
 
 displayData(currentPage);
+handleDisabledButtons(currentPage);
 
-document.getElementById("next-btn").addEventListener("click", () => {
+nextBtn.addEventListener("click", () => {
+  currentPage = currentPage + 1;
+
   thead.replaceChildren();
   tbody.replaceChildren();
   tfoot.replaceChildren();
-  displayData(++currentPage);
+  displayData(currentPage);
+  handleDisabledButtons(currentPage);
 });
 
-document.getElementById("prev-btn").addEventListener("click", () => {
+prevBtn.addEventListener("click", () => {
+  currentPage = currentPage - 1;
+
   thead.replaceChildren();
   tbody.replaceChildren();
   tfoot.replaceChildren();
-  displayData(--currentPage);
+  displayData(currentPage);
+  handleDisabledButtons(currentPage);
 });
+
+function handleDisabledButtons(page) {
+  if (page == 1) {
+    prevBtn.disabled = true;
+  } else if (page == 4) {
+    nextBtn.disabled = true;
+  } else {
+    prevBtn.disabled = false;
+    nextBtn.disabled = false;
+  }
+}
 
 function getCategoryData(page) {
   const data = [...records.values()];
