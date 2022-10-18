@@ -77,11 +77,10 @@ function onSubmit(event) {
 
       inputElement.parentElement.appendChild(errorElement);
 
-      errorElement.textContent = errorMessage;
       inputElement.style.border = "2px solid red";
 
       setTimeout(() => {
-        errorElement.textContent = "";
+        errorElement.remove();
         inputElement.style.border = "";
       }, 5000);
 
