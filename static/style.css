@@ -280,3 +280,31 @@ select {
 .row-label {
   position: relative;
 }
+
+.toaster {
+  position: absolute;
+  top: -1120px;
+  left: 50%;
+
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 4px;
+  background-color: aliceblue;
+  color: black;
+  font-size: 18px;
+
+  padding: 0.5rem 1rem;
+  transform: translateX(-50%);
+
+  animation-name: slideDown;
+  animation-duration: 400ms;
+}
+
+@keyframes slideDown {
+  from {
+    top: -300px;
+  }
+
+  to {
+    top: 100px;
+  }
+}

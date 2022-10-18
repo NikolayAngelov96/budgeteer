@@ -1,4 +1,4 @@
-import { e, tr, td, months, getData, setData } from "./util";
+import { e, tr, td, months, getData, setData, toast } from "./util";
 
 // should sort them
 const budget = getData("budget");
@@ -43,6 +43,7 @@ function onButtonsClick(event) {
         row.remove();
         budget.delete(row.id);
         setData("budget", budget);
+        toast("success", "Successfully deleted.");
       }
     }
   }
@@ -106,6 +107,13 @@ function onSubmit(event) {
 
   form.reset();
   tbody.appendChild(row);
+
+  toast(
+    "success",
+    `Successfully added ${data.budget} budget for ${
+      months[Number(data.month.slice(0, 2)) - 1]
+    }`
+  );
 
   isEditModeOn = false;
   currentId = null;

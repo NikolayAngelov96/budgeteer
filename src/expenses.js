@@ -1,4 +1,14 @@
-import { e, tr, td, months, categories, getId, setData, getData } from "./util";
+import {
+  e,
+  tr,
+  td,
+  months,
+  categories,
+  getId,
+  setData,
+  getData,
+  toast,
+} from "./util";
 
 // should sort them
 const records = getData("records");
@@ -45,6 +55,7 @@ function onButtonsClick(event) {
         row.remove();
         records.delete(row.id);
         setData("records", records);
+        toast("success", "Successfully deleted.");
       }
     }
   }
@@ -110,6 +121,8 @@ function onSubmit(event) {
   dateInput.value = data.date;
 
   tbody.appendChild(row);
+
+  toast("success", `Successfully added ${record.name} to expenses.`);
 
   isEditModeOn = false;
   currentId = null;

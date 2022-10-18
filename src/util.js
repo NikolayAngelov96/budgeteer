@@ -94,3 +94,33 @@ export const mockdata = {
 export function getBarSize(number, max, multiplier) {
   return (number / max) * multiplier;
 }
+
+/**
+ *
+ * @param {"success" | "error"} type
+ * @param {string} message
+ */
+export function toast(type, message) {
+  const body = document.body;
+
+  const element = e("div", { className: "toaster" });
+
+  let msg = "Hello world";
+
+  if (type == "success") {
+    msg = `✅ ${message}`;
+  } else if (type == "error") {
+    msg = `❌ ${message}`;
+  } else {
+    return;
+  }
+
+  element.textContent = msg;
+  element.style.top = `100px`;
+
+  body.appendChild(element);
+
+  setTimeout(() => {
+    element.remove();
+  }, 4000);
+}
