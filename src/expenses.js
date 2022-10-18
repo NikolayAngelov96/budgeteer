@@ -41,9 +41,11 @@ function onButtonsClick(event) {
       categoryElement.value = record.category;
       amountInput.value = record.amount;
     } else if (event.target.classList.contains("delete-btn")) {
-      row.remove();
-      records.delete(row.id);
-      setData("records", records);
+      if (confirm("Are you sure ?")) {
+        row.remove();
+        records.delete(row.id);
+        setData("records", records);
+      }
     }
   }
 }

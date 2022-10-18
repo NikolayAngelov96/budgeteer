@@ -39,9 +39,11 @@ function onButtonsClick(event) {
       incomeInput.value = record.income;
       budgetInput.value = record.budget;
     } else if (event.target.classList.contains("delete-btn")) {
-      row.remove();
-      budget.delete(row.id);
-      setData("budget", budget);
+      if (confirm("Are you sure ?")) {
+        row.remove();
+        budget.delete(row.id);
+        setData("budget", budget);
+      }
     }
   }
 }
