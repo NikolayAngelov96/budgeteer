@@ -119,10 +119,15 @@ function onSubmit(event) {
   records.set(id, record);
   setData("records", records);
 
+  const nextRecord = [...records.values()].find(
+    (x) => new Date(x.date) > new Date(record.date)
+  );
+
+  const nextNode = document.getElementById(nextRecord.id);
+  nextNode.parentElement.insertBefore(row, nextNode);
+
   form.reset();
   dateInput.value = data.date;
-
-  tbody.appendChild(row);
 
   toast("success", `Successfully added ${record.name} to expenses.`);
 
