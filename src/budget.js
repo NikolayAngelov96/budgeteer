@@ -107,8 +107,18 @@ function onSubmit(event) {
   budget.set(id, record);
   setData("budget", budget);
 
+  const nextRecord = [...budget.values()].find(
+    (x) => Number(x.month.split("-")[0]) > record.month.split("-")[0]
+  );
+
+  if (nextRecord) {
+    const nextNode = document.getElementById(nextRecord.id);
+    nextNode.parentElement.insertBefore(row, nextNode);
+  } else {
+    tbody.appendChild(row);
+  }
+
   form.reset();
-  tbody.appendChild(row);
 
   toast(
     "success",
@@ -125,8 +135,8 @@ function createRow({ month, income, budget }, id) {
   let [monthAsStr, yearAsStr] = month.split("-");
 
   monthAsStr = monthAsStr.startsWith("0")
-    ? Number(monthAsStr.slice(1, 2) - 1)
-    : monthAsStr;
+    ? Number(monthAsStr.slice(1, 2)) - 1
+    : Number(monthAsStr) - 1;
 
   const row = tr(
     td(`${months[monthAsStr]}.${yearAsStr}`),

@@ -82,7 +82,6 @@ function onSubmit(event) {
     if (data[key] == "") {
       // works one error at a time
       let errorMessage = `${key} is required field`;
-      // const errorElement = document.getElementById("error-message");
       const errorElement = e(
         "span",
         { className: "error-message" },
@@ -123,8 +122,12 @@ function onSubmit(event) {
     (x) => new Date(x.date) > new Date(record.date)
   );
 
-  const nextNode = document.getElementById(nextRecord.id);
-  nextNode.parentElement.insertBefore(row, nextNode);
+  if (nextRecord) {
+    const nextNode = document.getElementById(nextRecord.id);
+    nextNode.parentElement.insertBefore(row, nextNode);
+  } else {
+    tbody.appendChild(row);
+  }
 
   form.reset();
   dateInput.value = data.date;
