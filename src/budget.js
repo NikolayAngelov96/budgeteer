@@ -52,7 +52,9 @@ function onButtonsClick(event) {
 initialDataLoading();
 
 function initialDataLoading() {
-  const data = [...budget.values()].map((x) => createRow(x, x.id));
+  const data = [...budget.values()]
+    .sort((a, b) => a.month.localeCompare(b.month))
+    .map((x) => createRow(x, x.id));
 
   tbody.replaceChildren(...data);
 }

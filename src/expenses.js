@@ -64,7 +64,9 @@ function onButtonsClick(event) {
 initialDataLoading();
 
 function initialDataLoading() {
-  const data = [...records.values()].map((x) => createRow(x, x.id));
+  const data = [...records.values()]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((x) => createRow(x, x.id));
 
   tbody.replaceChildren(...data);
 }
