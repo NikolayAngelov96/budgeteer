@@ -296,7 +296,7 @@ select {
   transform: translateX(-50%);
 
   animation-name: slideDown;
-  animation-duration: 400ms;
+  animation-duration: 300ms;
 }
 
 @keyframes slideDown {

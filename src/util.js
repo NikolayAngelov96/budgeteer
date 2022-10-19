@@ -122,5 +122,5 @@ export function toast(type, message) {
 
   setTimeout(() => {
     element.remove();
-  }, 4000);
+  }, 3000);
 }
