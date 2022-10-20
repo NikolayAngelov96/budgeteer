@@ -134,12 +134,17 @@ function onSubmit(event) {
 function createRow({ month, income, budget }, id) {
   let [monthAsStr, yearAsStr] = month.split("-");
 
-  monthAsStr = monthAsStr.startsWith("0")
+  let monthAsNum = monthAsStr.startsWith("0")
     ? Number(monthAsStr.slice(1, 2)) - 1
     : Number(monthAsStr) - 1;
 
+  if (monthAsNum < 0 || monthAsNum > 11) {
+    toast("error", "Not a valid month number.");
+    return;
+  }
+
   const row = tr(
-    td(`${months[monthAsStr]}.${yearAsStr}`),
+    td(`${months[monthAsNum]}.${yearAsStr}`),
     td(e("span", { className: "currency" }, income)),
     td(e("span", { className: "currency" }, budget)),
     td(
