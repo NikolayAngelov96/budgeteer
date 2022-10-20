@@ -132,7 +132,12 @@ function onSubmit(event) {
   form.reset();
   dateInput.value = data.date;
 
-  toast("success", `Successfully added ${record.name} to expenses.`);
+  toast(
+    "success",
+    `Successfully ${isEditModeOn ? "edited" : "added"} ${
+      record.name
+    } to expenses.`
+  );
 
   isEditModeOn = false;
   currentId = null;

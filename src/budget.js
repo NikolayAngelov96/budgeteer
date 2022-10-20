@@ -122,9 +122,9 @@ function onSubmit(event) {
 
   toast(
     "success",
-    `Successfully added ${data.budget} budget for ${
-      months[Number(data.month.slice(0, 2)) - 1]
-    }`
+    `Successfully ${isEditModeOn ? "edited" : "added"} ${
+      data.budget
+    } budget for ${months[Number(data.month.slice(0, 2)) - 1]}`
   );
 
   isEditModeOn = false;
