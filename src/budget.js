@@ -105,6 +105,21 @@ function onSubmit(event) {
     return;
   }
 
+  if (Number(data.income) < 0) {
+    toast("error", "Income cannot below zero");
+    return;
+  }
+
+  if (Number(data.budget) < 0) {
+    toast("error", "Budget cannot below zero");
+    return;
+  }
+
+  if (data.budget > data.income) {
+    toast("error", "Budget cannot be more than Income");
+    return;
+  }
+
   const row = createRow(data, id);
 
   const record = {
