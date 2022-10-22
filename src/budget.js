@@ -98,6 +98,13 @@ function onSubmit(event) {
     budget.delete(id);
   }
 
+  const monthAsNum = Number(data.month.split("-")[0]) - 1;
+
+  if (monthAsNum < 0 || monthAsNum > 11) {
+    toast("error", "Not a valid month number.");
+    return;
+  }
+
   const row = createRow(data, id);
 
   const record = {
@@ -137,11 +144,6 @@ function createRow({ month, income, budget }, id) {
   let monthAsNum = monthAsStr.startsWith("0")
     ? Number(monthAsStr.slice(1, 2)) - 1
     : Number(monthAsStr) - 1;
-
-  if (monthAsNum < 0 || monthAsNum > 11) {
-    toast("error", "Not a valid month number.");
-    return;
-  }
 
   const row = tr(
     td(`${months[monthAsNum]}.${yearAsStr}`),
